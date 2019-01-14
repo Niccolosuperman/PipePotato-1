@@ -4,8 +4,7 @@ import io.github.pipespotatos.PipePotatoPlugin
 import io.github.pipespotatos.api.module.Module
 import io.github.pipespotatos.api.module.ModuleManager
 import io.github.pipespotatos.module.chat.listener.PlayerChatListener
-import io.github.pipespotatos.module.chat.listener.PlayerJoinListener
-import io.github.pipespotatos.module.chat.listener.PlayerLeaveListener
+import io.github.pipespotatos.module.chat.listener.PlayerJoinQuitListener
 import org.spongepowered.api.Sponge
 
 
@@ -27,8 +26,7 @@ class ChatModule : Module("chat", "Chat") {
         val eventManager = Sponge.getEventManager()
 
         eventManager.registerListeners(plugin, PlayerChatListener())
-        eventManager.registerListeners(plugin, PlayerJoinListener())
-        eventManager.registerListeners(plugin, PlayerLeaveListener())
+        eventManager.registerListeners(plugin, PlayerJoinQuitListener())
     }
 
 }
