@@ -1,3 +1,5 @@
+package io.github.pipespotatos
+
 import com.google.inject.Inject
 import org.slf4j.Logger
 import org.spongepowered.api.event.Listener
