@@ -8,7 +8,7 @@ fun Connection.execute(sql: String, params: PreparedStatement.() -> Unit): Resul
     prepareStatement(sql).run {
         params()
 
-        val results = executeQuery().run { close(); this }
+        val results = executeQuery()
         close()
 
         return results

@@ -2,6 +2,7 @@ package io.github.pipespotatos
 
 import com.google.inject.Inject
 import io.github.pipespotatos.api.module.ModuleManager
+import module.roles.RoleModule
 import org.slf4j.Logger
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.game.state.GameStartedServerEvent
@@ -25,7 +26,7 @@ class PipePotatoPlugin {
     @Listener
     fun onServerStart(event: GameStartedServerEvent) {
         ModuleManager.registerClass(this)
-        // @todo Register new modules
+        ModuleManager.registerModule(RoleModule())
         ModuleManager.startAllModules()
 
         logger.info("Core plugin enabled.")
