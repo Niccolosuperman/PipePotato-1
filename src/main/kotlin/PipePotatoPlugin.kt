@@ -25,6 +25,7 @@ class PipePotatoPlugin {
 
     @Listener
     fun onServerStart(event: GameStartedServerEvent) {
+        ModuleManager.registerClass(this)
         ModuleManager.registerModule(AuthModule())
         ModuleManager.startAllModules()
 
