@@ -8,7 +8,7 @@ plugins {
 
 group = "io.github.pipespotatos"
 version = "0.1.0"
-description = "Core plugin which features all the essentials and mechanics of official server"
+description = "Core plugin which features all the essentials and mechanics of the official server"
 
 repositories {
     mavenCentral()
