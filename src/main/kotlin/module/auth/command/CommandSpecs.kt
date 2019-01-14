@@ -14,6 +14,11 @@ object CommandSpecs {
         .executor(LoginExecutor())
         .build()
 
+    fun getLogoutCommandSpec(): CommandSpec = CommandSpec.builder()
+        .description(Text.of("Logout command for players"))
+        .executor(LogoutExecutor())
+        .build()
+
     fun getRegisterCommandSpec(): CommandSpec = CommandSpec.builder()
         .description(Text.of("Registers a player to database"))
         .arguments(
@@ -22,6 +27,5 @@ object CommandSpecs {
         )
         .executor(RegisterExecutor())
         .build()
-
 
 }

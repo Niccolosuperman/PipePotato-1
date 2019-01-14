@@ -27,6 +27,7 @@ class AuthModule : Module("auth", "Auth") {
         val commandManager = Sponge.getCommandManager()
 
         commandManager.register(plugin, CommandSpecs.getLoginCommandSpec(), "login", "l")
+        commandManager.register(plugin, CommandSpecs.getLogoutCommandSpec(), "logout")
         commandManager.register(plugin, CommandSpecs.getRegisterCommandSpec(), "register", "reg")
     }
 

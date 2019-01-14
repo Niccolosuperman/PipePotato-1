@@ -7,6 +7,7 @@ import org.spongepowered.api.event.block.ChangeBlockEvent
 import org.spongepowered.api.event.command.SendCommandEvent
 import org.spongepowered.api.event.entity.MoveEntityEvent
 import org.spongepowered.api.event.message.MessageChannelEvent
+import org.spongepowered.api.text.Text
 
 class PlayerActionListener {
 
@@ -47,6 +48,8 @@ class PlayerActionListener {
                         event.isCancelled = false
                 }
             }
+            if (event.isCancelled)
+                it.sendMessage(Text.of("You must login before using any other commands!"))
         }
     }
 
