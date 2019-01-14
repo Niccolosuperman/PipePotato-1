@@ -1,6 +1,8 @@
 package io.github.pipespotatos.module.auth
 
 import io.github.pipespotatos.api.database.Database
+import io.github.pipespotatos.api.database.execute
+import io.github.pipespotatos.api.database.executeUpdate
 import java.util.*
 
 
@@ -13,66 +15,41 @@ object AuthManager : Database("auth") {
     }
 
     private fun createTableIfNotExists() {
-        val sql = "CREATE TABLE IF NOT EXISTS $table (UUID varchar(255), Password varchar(255));"
-        val connection = getConnection()
-        val statement = connection.prepareStatement(sql)
-
-        statement.executeUpdate()
-
-        statement.close()
-        connection.close()
+        getConnection().executeUpdate("CREATE TABLE IF NOT EXISTS $table (UUID varchar(255), Password varchar(255));") { }
     }
 
-    fun insertPlayer(uuid: UUID, password: String) {
+    fun registerPlayer(uuid: UUID, password: String) {
         if (isPlayerRegistered(uuid))
-            return
+            throw AlreadyRegisteredException()
 
-        val sql = "INSERT INTO $table (UUID, Password) VALUES (?, ?);"
-        val connection = getConnection()
-        val statement = connection.prepareStatement(sql)
-        statement.setString(1, uuid.toString())
-        statement.setString(2, password)
-
-        statement.executeUpdate()
-
-        statement.close()
-        connection.close()
-    }
-
-    fun getPlayerPassword(uuid: UUID): String {
-        var ret = ""
-
-        val sql = "SELECT Password FROM $table WHERE UUID=?;"
-        val connection = getConnection()
-        val statement = connection.prepareStatement(sql)
-        statement.setString(1, uuid.toString())
-        val results = statement.executeQuery()
-
-        while (results.next())
-            ret = results.getString(1)
-
-        connection.close()
-        statement.close()
-        results.close()
-
-        return ret
+        getConnection().executeUpdate("INSERT INTO $table (UUID, Password) VALUES (?, ?);") {
+            setString(1, uuid.toString())
+            setString(2, password)
+        }
     }
 
     fun isPlayerRegistered(uuid: UUID): Boolean {
         var ret = false
+        getConnection().execute("SELECT * FROM $table WHERE UUID=?;", {
+            setString(1, uuid.toString())
+        }, {
+            while (next())
+                ret = true
+        })
+        return ret
+    }
 
-        val sql = "SELECT * FROM $table WHERE UUID=?"
-        val connection = getConnection()
-        val statement = connection.prepareStatement(sql)
-        statement.setString(1, uuid.toString())
-        val results = statement.executeQuery()
+    fun getPlayerPassword(uuid: UUID): String {
+        if (!isPlayerRegistered(uuid))
+            throw NotRegisteredException()
 
-        while (results.next())
-            ret = true
-        statement.close()
-        results.close()
-        connection.close()
-
+        var ret = ""
+        getConnection().execute("SELECT Password FROM $table WHERE UUID=?;", {
+            setString(1, uuid.toString())
+        }, {
+            while (next())
+                ret = getString(1)
+        })
         return ret
     }
 

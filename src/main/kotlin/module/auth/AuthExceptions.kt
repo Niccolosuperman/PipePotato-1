@@ -9,3 +9,5 @@ class IncorrectPasswordException : Exception()
 class PasswordsDontMatchException : Exception()
 
 class NotLoggedException : Exception()
+
+class NotRegisteredException : Exception()

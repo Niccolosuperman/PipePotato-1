@@ -29,11 +29,10 @@ class AuthPlayer(val uuid: UUID) {
     }
 
     fun register(password: String, verify: String) {
-        if (isRegistered)
-            throw AlreadyRegisteredException()
         if (!verifyPassword(password, verify))
             throw PasswordsDontMatchException()
-        AuthManager.insertPlayer(uuid, password)
+
+        AuthManager.registerPlayer(uuid, password)
 
         this.password = password
 
