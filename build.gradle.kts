@@ -18,11 +18,19 @@ dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
 
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+
     compileOnly("org.spongepowered:spongeapi:7.1.0")
+    testCompile("org.spongepowered:spongeapi:7.1.0")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 val fatJar = task("fatJar", type = Jar::class) {
