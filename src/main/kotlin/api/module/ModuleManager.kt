@@ -1,7 +1,5 @@
 package io.github.pipespotatos.api.module
 
-import org.slf4j.LoggerFactory
-
 object ModuleManager {
 
     private val modules = mutableSetOf<Module>()
@@ -34,7 +32,6 @@ object ModuleManager {
 
     fun registerModule(module: Module) {
         // @todo Create module registry and class map
-        module.logger = LoggerFactory.getLogger("module/${module.name}")
         modules.add(module)
     }
 
