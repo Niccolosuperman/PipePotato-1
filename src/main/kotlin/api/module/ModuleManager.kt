@@ -3,6 +3,7 @@ package io.github.pipespotatos.api.module
 object ModuleManager {
 
     private val modules = mutableSetOf<Module>()
+    internal val classRegistry = mutableSetOf<Any>()
 
     fun startAllModules() {
         for (module in modules)
@@ -38,6 +39,12 @@ object ModuleManager {
     fun unregisterModule(module: Module) {
         modules.remove(module)
     }
+
+    fun registerClass(clazz: Any) {
+        classRegistry.add(clazz)
+    }
+
+    internal inline fun <reified T> getClass(type: T) = classRegistry.first { it is T }
 
     fun getModuleById(id: String) = modules.firstOrNull { module -> module.id == id }
 

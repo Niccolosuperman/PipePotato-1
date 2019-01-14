@@ -38,6 +38,7 @@ class PipePotatoPlugin {
 
     private fun prepareModules() {
         // @todo Register new modules
+        ModuleManager.registerClass(this)
         ModuleManager.startAllModules()
     }
 
