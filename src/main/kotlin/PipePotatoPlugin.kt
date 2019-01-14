@@ -24,7 +24,9 @@ class PipePotatoPlugin {
 
     @Listener
     fun onServerStart(event: GameStartedServerEvent) {
-        prepareModules()
+        ModuleManager.registerClass(this)
+        // @todo Register new modules
+        ModuleManager.startAllModules()
 
         logger.info("Core plugin enabled.")
     }
@@ -34,12 +36,6 @@ class PipePotatoPlugin {
         ModuleManager.stopAllModules()
 
         logger.info("Core plugin disabled.")
-    }
-
-    private fun prepareModules() {
-        // @todo Register new modules
-        ModuleManager.registerClass(this)
-        ModuleManager.startAllModules()
     }
 
 }
