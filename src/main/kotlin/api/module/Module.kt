@@ -1,12 +1,13 @@
 package io.github.pipespotatos.api.module
 
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 open class Module(id: String = "module", val name: String = id) : BaseModule(id) {
 
-    override var isEnabled = false
+    protected val logger: Logger = LoggerFactory.getLogger("module/${name}")
 
-    lateinit var logger: Logger
+    override var isEnabled = false
 
     override fun onEnable() {
         logger.info("$name module enabled.")
