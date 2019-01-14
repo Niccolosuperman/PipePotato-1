@@ -1,6 +1,8 @@
 package io.github.pipespotatos
 
 import com.google.inject.Inject
+import io.github.pipespotatos.api.module.Module
+import io.github.pipespotatos.api.module.ModuleManager
 import org.slf4j.Logger
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.game.state.GameStartedServerEvent
@@ -23,12 +25,21 @@ class PipePotatoPlugin {
 
     @Listener
     fun onServerStart(event: GameStartedServerEvent) {
+        prepareModules()
+
         logger.info("Core plugin enabled.")
     }
 
     @Listener
     fun onServerStop(event: GameStoppedServerEvent) {
+        ModuleManager.stopAllModules()
+
         logger.info("Core plugin disabled.")
+    }
+
+    fun prepareModules() {
+        // @todo Register new modules
+        ModuleManager.startAllModules()
     }
 
 }
