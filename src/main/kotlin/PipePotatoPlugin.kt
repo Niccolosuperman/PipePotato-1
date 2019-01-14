@@ -1,3 +1,8 @@
+import com.google.inject.Inject
+import org.slf4j.Logger
+import org.spongepowered.api.event.Listener
+import org.spongepowered.api.event.game.state.GameStartedServerEvent
+import org.spongepowered.api.event.game.state.GameStoppedServerEvent
 import org.spongepowered.api.plugin.Plugin
 
 
@@ -9,4 +14,19 @@ import org.spongepowered.api.plugin.Plugin
     url = "https://pipespotatoes.github.io",
     description = "Core plugin which features all the essentials and mechanics of the official server"
 )
-class PipePotatoPlugin
+class PipePotatoPlugin {
+
+    @Inject
+    private lateinit var logger: Logger
+
+    @Listener
+    fun onServerStart(event: GameStartedServerEvent) {
+        logger.info("Core plugin enabled.")
+    }
+
+    @Listener
+    fun onServerStop(event: GameStoppedServerEvent) {
+        logger.info("Core plugin disabled.")
+    }
+
+}
