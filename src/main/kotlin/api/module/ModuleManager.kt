@@ -34,7 +34,7 @@ object ModuleManager {
 
     fun registerModule(module: Module) {
         // @todo Create module registry and class map
-        module.setLogger(LoggerFactory.getLogger("module/${module.name}"))
+        module.logger = LoggerFactory.getLogger("module/${module.name}")
         modules.add(module)
     }
 
