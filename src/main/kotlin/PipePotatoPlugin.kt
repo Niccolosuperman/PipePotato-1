@@ -1,3 +1,5 @@
+package io.github.pipespotatos
+
 import org.spongepowered.api.plugin.Plugin
 
 
