@@ -30,15 +30,13 @@ object RoleManager : Database("role") {
         if (!isPlayerRegistered(uuid))
             return ""
 
-        val results = getConnection().execute("SELECT Roles FROM $table WHERE UUID=?;") {
-            setString(1, uuid.toString())
-        }
-
         var ret = ""
-        while (results.next())
-            ret = results.getString("Roles")
-
-        results.close()
+        getConnection().execute("SELECT Roles FROM $table WHERE UUID=?;", {
+            setString(1, uuid.toString())
+        }, {
+            while (next())
+                ret = getString("Roles")
+        })
 
         return ret
     }
@@ -54,7 +52,7 @@ object RoleManager : Database("role") {
     }
 
     fun setPlayerRoles(uuid: UUID, roles: List<Role>) {
-        getConnection().execute("MERGE INTO $table KEY (UUID) VALUES(?, ?);") {
+        getConnection().executeUpdate("MERGE INTO $table KEY (UUID) VALUES(?, ?);") {
             setString(1, uuid.toString())
             setString(2, roles.joinToString(",") { it.name })
         }
@@ -62,16 +60,12 @@ object RoleManager : Database("role") {
 
     private fun isPlayerRegistered(uuid: UUID): Boolean {
         var ret = false
-
-        val results = getConnection().execute("SELECT * FROM $table WHERE UUID=?") {
+        getConnection().execute("SELECT * FROM $table WHERE UUID=?", {
             setString(1, uuid.toString())
-        }
-
-        while (results.next())
-            ret = true
-
-        results.close()
-
+        }, {
+            while (next())
+                ret = true
+        })
         return ret
     }
 
