@@ -17,6 +17,8 @@ class AuthPlayer(val uuid: UUID) {
     fun login(password: String) {
         if (isLogged)
             throw AlreadyLoggedException()
+        if (!isRegistered)
+            throw NotRegisteredException()
         if (!comparePassword(password))
             throw IncorrectPasswordException()
         isLogged = true
@@ -29,6 +31,10 @@ class AuthPlayer(val uuid: UUID) {
     }
 
     fun register(password: String, verify: String) {
+        if (isRegistered)
+            throw AlreadyRegisteredException()
+        if (isLogged)
+            throw AlreadyLoggedException()
         if (!verifyPassword(password, verify))
             throw PasswordsDontMatchException()
 
