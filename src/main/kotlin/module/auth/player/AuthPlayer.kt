@@ -1,6 +1,7 @@
 package io.github.pipespotatos.module.auth.player
 
 import io.github.pipespotatos.module.auth.*
+import org.mindrot.jbcrypt.BCrypt
 import org.spongepowered.api.Sponge
 import java.util.*
 
@@ -64,7 +65,7 @@ class AuthPlayer(val uuid: UUID) {
 
     fun getRawPlayer() = Sponge.getServer().getPlayer(uuid)
 
-    private fun comparePassword(password: String) = (this.password == password)
+    private fun comparePassword(password: String) = BCrypt.checkpw(password, this.password)
 
     private fun verifyPassword(password: String, verify: String) = (verify == password)
 
