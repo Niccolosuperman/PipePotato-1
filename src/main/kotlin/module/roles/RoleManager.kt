@@ -75,8 +75,11 @@ object RoleManager : Database("role") {
         getPlayerRoles(uuid).forEach {
             if (ret)
                 return@forEach
+            
+            val field = it.permissions::class.java.getDeclaredField(permission)
+            field.isAccessible = true
 
-            ret = it.permissions::class.java.getDeclaredField(permission).getBoolean(it.permissions)
+            ret = field.getBoolean(it.permissions)
         }
 
         return ret
