@@ -30,6 +30,15 @@ class AuthPlayer(val uuid: UUID) {
         isLogged = false
     }
 
+    fun unregister() {
+        if (!isRegistered)
+            throw NotRegisteredException()
+        isLogged = false
+        isRegistered = false
+
+        AuthManager.unregisterPlayer(uuid)
+    }
+
     fun register(password: String, verify: String) {
         if (isRegistered)
             throw AlreadyRegisteredException()

@@ -19,12 +19,15 @@ object AuthManager : Database("auth") {
     }
 
     fun registerPlayer(uuid: UUID, password: String) {
-        if (isPlayerRegistered(uuid))
-            throw AlreadyRegisteredException()
-
         getConnection().executeUpdate("INSERT INTO $table (UUID, Password) VALUES (?, ?);") {
             setString(1, uuid.toString())
             setString(2, password)
+        }
+    }
+
+    fun unregisterPlayer(uuid: UUID) {
+        getConnection().executeUpdate("DELETE FROM $table WHERE UUID=?;") {
+            setString(1, uuid.toString())
         }
     }
 
@@ -40,9 +43,6 @@ object AuthManager : Database("auth") {
     }
 
     fun getPlayerPassword(uuid: UUID): String {
-        if (!isPlayerRegistered(uuid))
-            throw NotRegisteredException()
-
         var ret = ""
         getConnection().execute("SELECT Password FROM $table WHERE UUID=?;", {
             setString(1, uuid.toString())
