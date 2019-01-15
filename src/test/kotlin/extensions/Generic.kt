@@ -1,3 +1,5 @@
+package extensions
+
 import io.github.pipespotatos.extensions.ifNull
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
