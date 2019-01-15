@@ -29,6 +29,7 @@ class AuthModule : Module("auth", "Auth") {
         commandManager.register(plugin, CommandSpecs.getLoginCommandSpec(), "login", "l")
         commandManager.register(plugin, CommandSpecs.getLogoutCommandSpec(), "logout")
         commandManager.register(plugin, CommandSpecs.getRegisterCommandSpec(), "register", "reg")
+        commandManager.register(plugin, CommandSpecs.getUnregisterCommandSpec(), "unregister")
     }
 
     private fun registerEvents() {

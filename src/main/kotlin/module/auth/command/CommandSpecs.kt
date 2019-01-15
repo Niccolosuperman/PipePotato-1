@@ -28,4 +28,11 @@ object CommandSpecs {
         .executor(RegisterExecutor())
         .build()
 
+    fun getUnregisterCommandSpec(): CommandSpec = CommandSpec.builder()
+        .description(Text.of("Unregisters a player"))
+        .arguments(
+            GenericArguments.onlyOne(GenericArguments.player(Text.of("target")))
+        )
+        .executor(UnregisterExecutor())
+        .build()
 }
