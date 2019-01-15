@@ -4,6 +4,11 @@ import ninja.leaping.configurate.objectmapping.Setting
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable
 
 @ConfigSerializable
+data class RolePermissions(
+    @Setting val managePlayerLogins: Boolean = false
+)
+
+@ConfigSerializable
 data class RoleProperties(
     @Setting val chatColor: String = "WHITE"
 )
@@ -12,7 +17,8 @@ data class RoleProperties(
 data class Role(
     @Setting val name: String = "Player",
     @Setting val priority: Int = 0,
-    @Setting val properties: RoleProperties = RoleProperties()
+    @Setting val properties: RoleProperties = RoleProperties(),
+    @Setting val permissions: RolePermissions = RolePermissions()
 )
 
 @ConfigSerializable

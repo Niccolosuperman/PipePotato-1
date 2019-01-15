@@ -69,4 +69,17 @@ object RoleManager : Database("role") {
         return ret
     }
 
+    fun playerHasPermission(uuid: UUID, permission: String): Boolean {
+        var ret = false
+
+        getPlayerRoles(uuid).forEach {
+            if (ret)
+                return@forEach
+
+            ret = it.permissions::class.java.getDeclaredField(permission).getBoolean(it.permissions)
+        }
+
+        return ret
+    }
+
 }
