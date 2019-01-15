@@ -17,7 +17,7 @@ repositories {
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
-    compile("org.mindrot:jbcrypt:0.4")
+    compile("at.favre.lib:bcrypt:0.6.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
@@ -37,7 +37,9 @@ tasks.withType<Test> {
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "${project.name}-fat"
 
+    exclude("META-INF/*")
     from(configurations.runtime.map { if (it.isDirectory) it else zipTree(it) })
+
     with(tasks["jar"] as CopySpec)
 }
 

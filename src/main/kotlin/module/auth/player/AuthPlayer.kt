@@ -1,7 +1,7 @@
 package io.github.pipespotatos.module.auth.player
 
+import at.favre.lib.crypto.bcrypt.BCrypt
 import io.github.pipespotatos.module.auth.*
-import org.mindrot.jbcrypt.BCrypt
 import org.spongepowered.api.Sponge
 import java.util.*
 
@@ -48,10 +48,10 @@ class AuthPlayer(val uuid: UUID) {
         if (!verifyPassword(password, verify))
             throw PasswordsDontMatchException()
 
-        AuthManager.registerPlayer(uuid, password)
+        val hashed = BCrypt.withDefaults().hashToString(12, password.toCharArray())
+        AuthManager.registerPlayer(uuid, hashed)
 
-        this.password = password
-
+        this.password = hashed
         isRegistered = true
         isLogged = true
     }
@@ -65,7 +65,7 @@ class AuthPlayer(val uuid: UUID) {
 
     fun getRawPlayer() = Sponge.getServer().getPlayer(uuid)
 
-    private fun comparePassword(password: String) = BCrypt.checkpw(password, this.password)
+    private fun comparePassword(password: String) = BCrypt.verifyer().verify(password.toCharArray(), this.password).verified
 
     private fun verifyPassword(password: String, verify: String) = (verify == password)
 

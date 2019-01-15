@@ -3,7 +3,6 @@ package io.github.pipespotatos.module.auth
 import io.github.pipespotatos.api.database.Database
 import io.github.pipespotatos.api.database.execute
 import io.github.pipespotatos.api.database.executeUpdate
-import org.mindrot.jbcrypt.BCrypt
 import java.util.*
 
 
@@ -20,11 +19,9 @@ object AuthManager : Database("auth") {
     }
 
     fun registerPlayer(uuid: UUID, password: String) {
-        val hashed = BCrypt.hashpw(password, BCrypt.gensalt())
-
         getConnection().executeUpdate("INSERT INTO $table (UUID, Password) VALUES (?, ?);") {
             setString(1, uuid.toString())
-            setString(2, hashed)
+            setString(2, password)
         }
     }
 
