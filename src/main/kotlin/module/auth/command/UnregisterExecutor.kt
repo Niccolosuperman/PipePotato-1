@@ -2,6 +2,7 @@ package io.github.pipespotatos.module.auth.command
 
 import io.github.pipespotatos.module.auth.NotRegisteredException
 import io.github.pipespotatos.module.auth.player.AuthPlayerManager
+import io.github.pipespotatos.module.roles.RoleManager
 import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.CommandSource
 import org.spongepowered.api.command.args.CommandContext
@@ -13,6 +14,13 @@ class UnregisterExecutor : CommandExecutor {
 
     override fun execute(source: CommandSource, args: CommandContext): CommandResult {
         var ret = CommandResult.empty()
+
+        if (source is Player) {
+            if (!RoleManager.playerHasPermission(source.uniqueId, "managePlayerLogins")) {
+                source.sendMessage(Text.of("You cannot do this"))
+                return CommandResult.empty()
+            }
+        }
 
         args.getOne<Player>("target").ifPresent {
             val authWallPlayer = AuthPlayerManager.getPlayer(it)
