@@ -20,6 +20,17 @@ class DelRoleCommand : CommandExecutor {
             return CommandResult.empty()
         }
 
+        if (src is Player) {
+            var highestPriority = 0
+            RoleManager.getPlayerRoles(src.uniqueId)
+                .forEach { if (it.priority > highestPriority) highestPriority = it.priority }
+
+            if (roleObj.priority > highestPriority) {
+                src.sendMessage(Text.join(Text.of(TextColors.RED, "You don't have enough permissions to remove this role")))
+                return CommandResult.empty()
+            }
+        }
+
         val roles = RoleManager.getPlayerRoles(p.uniqueId).toMutableList()
 
         if (roleObj !in roles) {
