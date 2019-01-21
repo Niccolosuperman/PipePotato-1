@@ -17,8 +17,8 @@ data class Config(
 
 @ConfigSerializable
 data class ChatConfig(
-    @Setting val prefix: String = "&e[&bPipe&6Potato&e]",
-    @Setting val messageFormat: String = "%prefix% %message%",
+    @Setting val prefix: String = "&4[&bPipe&6Potato&4]",
+    @Setting val messageFormat: String = "%prefix% &e%message%",
     @Setting val exceptionFormat: String = "%prefix% &c%message%"
 )
 

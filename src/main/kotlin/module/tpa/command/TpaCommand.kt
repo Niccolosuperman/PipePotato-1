@@ -12,8 +12,6 @@ import org.spongepowered.api.command.args.CommandContext
 import org.spongepowered.api.command.spec.CommandExecutor
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.scheduler.Task
-import org.spongepowered.api.text.Text
-import org.spongepowered.api.text.format.TextColors
 import java.util.concurrent.TimeUnit
 
 class TpaCommand(private val module: TpaModule) : CommandExecutor {
@@ -31,14 +29,19 @@ class TpaCommand(private val module: TpaModule) : CommandExecutor {
 
         module.tpList[to] = src
 
-        to.sendMessage(config.tpa.messages.playerRequestsTp.replace("%player%", src.name))
+        to.sendMessage(
+            config.tpa.messages.playerRequestsTp.replace("%player%", src.name).replace(
+                "%delay%",
+                config.tpa.delay.toString()
+            )
+        )
         src.sendMessage(config.tpa.messages.tpRequestSent)
 
         Task.builder().execute(Runnable {
             if (module.tpList.containsKey(to)) {
                 module.tpList.remove(to)
             }
-        }).delay(5, TimeUnit.SECONDS).submit(plugin)
+        }).delay(config.tpa.delay, TimeUnit.SECONDS).submit(plugin)
 
         return CommandResult.success()
     }

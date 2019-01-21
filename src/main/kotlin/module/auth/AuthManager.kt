@@ -20,21 +20,21 @@ object AuthManager : Database("auth") {
 
     fun registerPlayer(uuid: UUID, password: String) {
         getConnection().executeUpdate("INSERT INTO $table (UUID, Password) VALUES (?, ?);") {
-            setString(1, uuid.toString())
+            setString(1, uuid.toString().replace("-", ""))
             setString(2, password)
         }
     }
 
     fun unregisterPlayer(uuid: UUID) {
         getConnection().executeUpdate("DELETE FROM $table WHERE UUID=?;") {
-            setString(1, uuid.toString())
+            setString(1, uuid.toString().replace("-", ""))
         }
     }
 
     fun isPlayerRegistered(uuid: UUID): Boolean {
         var ret = false
         getConnection().execute("SELECT * FROM $table WHERE UUID=?;", {
-            setString(1, uuid.toString())
+            setString(1, uuid.toString().replace("-", ""))
         }, {
             while (next())
                 ret = true
@@ -45,7 +45,7 @@ object AuthManager : Database("auth") {
     fun getPlayerPassword(uuid: UUID): String {
         var ret = ""
         getConnection().execute("SELECT Password FROM $table WHERE UUID=?;", {
-            setString(1, uuid.toString())
+            setString(1, uuid.toString().replace("-", ""))
         }, {
             while (next())
                 ret = getString(1)

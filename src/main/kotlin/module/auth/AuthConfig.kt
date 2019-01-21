@@ -11,8 +11,8 @@ data class AuthConfig(
 
 @ConfigSerializable
 data class AuthMessages(
-    @Setting val successfulLogin: String = "You registered successfully!",
-    @Setting val successfulRegister: String = "You logged out successfully!",
+    @Setting val successfulLogin: String = "You logged in successfully!",
+    @Setting val successfulRegister: String = "You registered successfully!",
     @Setting val successfulLogout: String = "You logged out successfully!",
     @Setting val successfulUnregister: String = "Player unregistered successfully!",
     @Setting val successfulTargetUnregister: String = "You are unregistered!",
@@ -25,5 +25,7 @@ data class AuthMessages(
     @Setting val targetNotRegistered: String = "Target is not registered!",
     @Setting val loginBeforeCommand: String = "You must login before using any other commands!",
     @Setting val register: String = "You are not registered, register via /register <password> <verify>",
-    @Setting val login: String = "You must log in. Usage is /login <password>"
+    @Setting val login: String = "You must log in. Usage is /login <password>",
+    @Setting val timeout: String = "Time out! You wasn't fast enough to login."
+
 )

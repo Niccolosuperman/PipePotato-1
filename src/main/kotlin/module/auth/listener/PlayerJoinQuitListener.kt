@@ -9,6 +9,7 @@ import io.github.pipespotatos.module.auth.player.AuthPlayerManager
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.network.ClientConnectionEvent
 import org.spongepowered.api.scheduler.Task
+import org.spongepowered.api.text.serializer.TextSerializers
 import java.util.concurrent.TimeUnit
 
 class PlayerJoinQuitListener {
@@ -28,7 +29,7 @@ class PlayerJoinQuitListener {
 
         Task.builder().execute(Runnable {
             if (!authWallPlayer.isLogged) {
-                player.kick()
+                player.kick(TextSerializers.FORMATTING_CODE.deserialize(config.auth.messages.timeout))
             }
         }).delay(config.auth.timeout, TimeUnit.SECONDS).submit(plugin)
     }

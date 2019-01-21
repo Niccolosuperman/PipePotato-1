@@ -24,8 +24,8 @@ class TpAcceptCommand(private val module: TpaModule) : CommandExecutor {
             src.sendException(config.tpa.messages.noTpRequest)
             return CommandResult.empty()
         }
-        module.tpList[src]!!.sendMessage("&e${config.tpa.messages.tpRequestAccepted}")
-        src.sendMessage("&e${config.tpa.messages.tpRequestAccepted}")
+        module.tpList[src]!!.sendMessage(config.tpa.messages.tpRequestAccepted)
+        src.sendMessage(config.tpa.messages.tpRequestAccepted)
 
         module.tpList[src]!!.location = src.location
         module.tpList.remove(src)
