@@ -1,5 +1,7 @@
 package io.github.pipespotatos.module.tpa.command
 
+import io.github.pipespotatos.PipePotatoPlugin
+import io.github.pipespotatos.api.module.ModuleManager
 import io.github.pipespotatos.module.tpa.TpaModule
 import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.CommandSource
@@ -12,6 +14,9 @@ import org.spongepowered.api.text.format.TextColors
 import java.util.concurrent.TimeUnit
 
 class TpaCommand(private val module: TpaModule) : CommandExecutor {
+
+    private val plugin = ModuleManager.getClass<PipePotatoPlugin>()
+
     override fun execute(src: CommandSource, args: CommandContext): CommandResult {
         if (src !is Player) {
             src.sendMessage(Text.of(TextColors.RED, "Bu komut oyuncular içindir"))
@@ -44,8 +49,9 @@ class TpaCommand(private val module: TpaModule) : CommandExecutor {
             if (module.tpList.containsKey(to)) {
                 module.tpList.remove(to)
             }
-        }).delay(5, TimeUnit.SECONDS).submit(module)
+        }).delay(5, TimeUnit.SECONDS).submit(plugin)
 
         return CommandResult.success()
     }
+
 }

@@ -1,8 +1,6 @@
 package io.github.pipespotatos.module.tpa
 
-import io.github.pipespotatos.PipePotatoPlugin
 import io.github.pipespotatos.api.module.Module
-import io.github.pipespotatos.api.module.ModuleManager
 import io.github.pipespotatos.module.tpa.command.TpAcceptCommand
 import io.github.pipespotatos.module.tpa.command.TpDenyCommand
 import io.github.pipespotatos.module.tpa.command.TpaCommand
@@ -13,8 +11,6 @@ import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.text.Text
 
 class TpaModule : Module("tpa", "TPA") {
-
-    private val plugin = ModuleManager.getClass<PipePotatoPlugin>()
 
     // Key => To
     // Value => From
