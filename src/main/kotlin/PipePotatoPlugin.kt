@@ -16,7 +16,7 @@ import java.io.File
 
 
 @Plugin(
-    version = "0.1.0",
+    version = "0.2.0",
     id = "pipepotato",
     name = "PipePotato",
     authors = ["Pipes & Potatoes"],
