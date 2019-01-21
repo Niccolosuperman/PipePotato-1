@@ -17,4 +17,8 @@ open class Module(id: String = "module", val name: String = id) : BaseModule(id)
         logger.info("$name module disabled.")
     }
 
+    fun defaultConfiguration() {
+
+    }
+
 }

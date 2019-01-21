@@ -1,6 +1,9 @@
 package io.github.pipespotatos.module.auth.command
 
-import io.github.pipespotatos.module.auth.NotRegisteredException
+import io.github.pipespotatos.Config
+import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.extensions.sendException
+import io.github.pipespotatos.extensions.sendMessage
 import io.github.pipespotatos.module.auth.player.AuthPlayerManager
 import io.github.pipespotatos.module.roles.RoleManager
 import org.spongepowered.api.command.CommandResult
@@ -8,16 +11,17 @@ import org.spongepowered.api.command.CommandSource
 import org.spongepowered.api.command.args.CommandContext
 import org.spongepowered.api.command.spec.CommandExecutor
 import org.spongepowered.api.entity.living.player.Player
-import org.spongepowered.api.text.Text
 
 class UnregisterExecutor : CommandExecutor {
+
+    private val config = ModuleManager.getClass<Config>()
 
     override fun execute(source: CommandSource, args: CommandContext): CommandResult {
         var ret = CommandResult.empty()
 
         if (source is Player) {
             if (!RoleManager.playerHasPermission(source.uniqueId, "managePlayerLogins")) {
-                source.sendMessage(Text.of("You cannot do this"))
+                source.sendException(config.messages.notEligible)
                 return CommandResult.empty()
             }
         }
@@ -28,12 +32,12 @@ class UnregisterExecutor : CommandExecutor {
             try {
                 authWallPlayer.unregister()
 
-                source.sendMessage(Text.of("Player unregistered successfully!"))
-                it.sendMessage(Text.of("You are unregistered!"))
+                source.sendMessage(config.auth.messages.successfulUnregister)
+                it.sendMessage(config.auth.messages.successfulTargetUnregister)
 
                 ret = CommandResult.success()
-            } catch (exception: NotRegisteredException) {
-                source.sendMessage(Text.of("Target is not registered!"))
+            } catch (exception: Exception) {
+                exception.message?.let { source.sendException(it) }
             }
         }
 

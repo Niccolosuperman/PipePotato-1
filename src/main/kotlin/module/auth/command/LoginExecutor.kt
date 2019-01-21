@@ -1,17 +1,19 @@
 package io.github.pipespotatos.module.auth.command
 
-import io.github.pipespotatos.module.auth.AlreadyLoggedException
-import io.github.pipespotatos.module.auth.IncorrectPasswordException
-import io.github.pipespotatos.module.auth.NotRegisteredException
+import io.github.pipespotatos.Config
+import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.extensions.sendException
+import io.github.pipespotatos.extensions.sendMessage
 import io.github.pipespotatos.module.auth.player.AuthPlayerManager
 import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.CommandSource
 import org.spongepowered.api.command.args.CommandContext
 import org.spongepowered.api.command.spec.CommandExecutor
 import org.spongepowered.api.entity.living.player.Player
-import org.spongepowered.api.text.Text
 
 class LoginExecutor : CommandExecutor {
+
+    private val config = ModuleManager.getClass<Config>()
 
     override fun execute(source: CommandSource, args: CommandContext): CommandResult {
         if (source is Player) {
@@ -22,19 +24,15 @@ class LoginExecutor : CommandExecutor {
                 try {
                     authWallPlayer.login(password.get())
 
-                    source.sendMessage(Text.of("You logged in successfully!"))
+                    source.sendMessage(config.auth.messages.successfulLogin)
 
                     return CommandResult.success()
-                } catch (exception: AlreadyLoggedException) {
-                    source.sendMessage(Text.of("You are already logged in!"))
-                } catch (exception: NotRegisteredException) {
-                    source.sendMessage(Text.of("You must register first!"))
-                } catch (exception: IncorrectPasswordException) {
-                    source.sendMessage(Text.of("Incorrect password!"))
+                } catch (exception: Exception) {
+                    exception.message?.let { source.sendException(it) }
                 }
             }
         } else
-            source.sendMessage(Text.of("Only players can use this command!"))
+            source.sendException(config.messages.toString())
         return CommandResult.empty()
     }
 

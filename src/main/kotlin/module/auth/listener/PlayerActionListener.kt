@@ -1,5 +1,8 @@
 package io.github.pipespotatos.module.auth.listener
 
+import io.github.pipespotatos.Config
+import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.extensions.sendException
 import io.github.pipespotatos.module.auth.player.AuthPlayerManager
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.event.Listener
@@ -16,9 +19,10 @@ import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent
 import org.spongepowered.api.event.item.inventory.DropItemEvent
 import org.spongepowered.api.event.item.inventory.InteractInventoryEvent
 import org.spongepowered.api.event.message.MessageChannelEvent
-import org.spongepowered.api.text.Text
 
 class PlayerActionListener {
+
+    private val config = ModuleManager.getClass<Config>()
 
     @Listener
     fun onPlayerChat(event: MessageChannelEvent.Chat) {
@@ -57,7 +61,7 @@ class PlayerActionListener {
                 }
             }
             if (event.isCancelled)
-                it.sendMessage(Text.of("You must login before using any other commands!"))
+                it.sendException(config.auth.messages.loginBeforeCommand)
         }
     }
 

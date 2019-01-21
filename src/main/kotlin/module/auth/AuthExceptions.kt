@@ -1,13 +1,18 @@
 package io.github.pipespotatos.module.auth
 
-class AlreadyLoggedException : Exception()
+import io.github.pipespotatos.Config
+import io.github.pipespotatos.api.module.ModuleManager
 
-class AlreadyRegisteredException : Exception()
+private val messages = ModuleManager.getClass<Config>().auth.messages
 
-class IncorrectPasswordException : Exception()
+class AlreadyLoggedException : Exception(messages.alreadyLogged)
 
-class PasswordsDontMatchException : Exception()
+class AlreadyRegisteredException : Exception(messages.alreadyRegistered)
 
-class NotLoggedException : Exception()
+class IncorrectPasswordException : Exception(messages.incorrectPassword)
 
-class NotRegisteredException : Exception()
+class PasswordsDontMatchException : Exception(messages.passwordsDontMatch)
+
+class NotLoggedException : Exception(messages.notLogged)
+
+class NotRegisteredException : Exception(messages.notRegistered)

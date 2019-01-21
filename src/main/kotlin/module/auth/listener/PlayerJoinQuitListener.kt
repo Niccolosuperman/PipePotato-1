@@ -1,18 +1,20 @@
 package io.github.pipespotatos.module.auth.listener
 
+import io.github.pipespotatos.Config
 import io.github.pipespotatos.PipePotatoPlugin
 import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.extensions.sendMessage
 import io.github.pipespotatos.module.auth.NotLoggedException
 import io.github.pipespotatos.module.auth.player.AuthPlayerManager
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.network.ClientConnectionEvent
 import org.spongepowered.api.scheduler.Task
-import org.spongepowered.api.text.Text
 import java.util.concurrent.TimeUnit
 
 class PlayerJoinQuitListener {
 
     private val plugin = ModuleManager.getClass<PipePotatoPlugin>()
+    private val config = ModuleManager.getClass<Config>()
 
     @Listener
     fun onPlayerJoin(event: ClientConnectionEvent.Join) {
@@ -20,15 +22,15 @@ class PlayerJoinQuitListener {
         val authWallPlayer = AuthPlayerManager.getPlayer(player)
 
         if (!authWallPlayer.isRegistered)
-            player.sendMessage(Text.of("You are not registered, register via /register <password> <verify>"))
+            player.sendMessage(config.auth.messages.register)
         else
-            player.sendMessage(Text.of("You must log in. Usage is /login <password>"))
+            player.sendMessage(config.auth.messages.login)
 
         Task.builder().execute(Runnable {
             if (!authWallPlayer.isLogged) {
                 player.kick()
             }
-        }).delay(10, TimeUnit.SECONDS).submit(plugin) // @todo Config
+        }).delay(config.auth.timeout, TimeUnit.SECONDS).submit(plugin)
     }
 
     @Listener

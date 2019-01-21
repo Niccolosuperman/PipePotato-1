@@ -1,7 +1,10 @@
 package io.github.pipespotatos.module.tpa.command
 
+import io.github.pipespotatos.Config
 import io.github.pipespotatos.PipePotatoPlugin
 import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.extensions.sendException
+import io.github.pipespotatos.extensions.sendMessage
 import io.github.pipespotatos.module.tpa.TpaModule
 import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.CommandSource
@@ -16,10 +19,11 @@ import java.util.concurrent.TimeUnit
 class TpaCommand(private val module: TpaModule) : CommandExecutor {
 
     private val plugin = ModuleManager.getClass<PipePotatoPlugin>()
+    val config = ModuleManager.getClass<Config>()
 
     override fun execute(src: CommandSource, args: CommandContext): CommandResult {
         if (src !is Player) {
-            src.sendMessage(Text.of(TextColors.RED, "Bu komut oyuncular içindir"))
+            src.sendException(config.messages.onlyPlayers)
             return CommandResult.empty()
         }
 
@@ -27,23 +31,8 @@ class TpaCommand(private val module: TpaModule) : CommandExecutor {
 
         module.tpList[to] = src
 
-        to.sendMessage(
-            Text.of(
-                TextColors.RED,
-                src.name,
-                TextColors.GOLD,
-                " size ışınlanmak istiyor. Onaylamak için ",
-                TextColors.GREEN,
-                "/tpaccept ",
-                TextColors.GOLD,
-                " reddetmek için ",
-                TextColors.DARK_RED,
-                "/tpdeny",
-                TextColors.GOLD,
-                " yazmalısınız.\n5 saniye içinde bu işlem iptal edilecektir"
-            )
-        )
-        src.sendMessage(Text.of(TextColors.GREEN, "Işınlanma isteğiniz gönderilmiştir..."))
+        to.sendMessage(config.tpa.messages.playerRequestsTp.replace("%player%", src.name))
+        src.sendMessage(config.tpa.messages.tpRequestSent)
 
         Task.builder().execute(Runnable {
             if (module.tpList.containsKey(to)) {

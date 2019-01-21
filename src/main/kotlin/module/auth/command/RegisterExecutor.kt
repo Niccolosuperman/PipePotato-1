@@ -1,8 +1,6 @@
 package io.github.pipespotatos.module.auth.command
 
-import io.github.pipespotatos.module.auth.AlreadyLoggedException
-import io.github.pipespotatos.module.auth.AlreadyRegisteredException
-import io.github.pipespotatos.module.auth.PasswordsDontMatchException
+import io.github.pipespotatos.extensions.sendException
 import io.github.pipespotatos.module.auth.player.AuthPlayerManager
 import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.CommandSource
@@ -26,12 +24,8 @@ class RegisterExecutor : CommandExecutor {
                     source.sendMessage(Text.of("You registered successfully!"))
 
                     return CommandResult.success()
-                } catch (exception: AlreadyRegisteredException) {
-                    source.sendMessage(Text.of("You are already registered!"))
-                } catch (exception: AlreadyLoggedException) { // It is technically impossible to catch this but you never know
-                    source.sendMessage(Text.of("You must logout before registering!"))
-                } catch (exception: PasswordsDontMatchException) {
-                    source.sendMessage(Text.of("Passwords doesn't match!"))
+                } catch (exception: Exception) {
+                    exception.message?.let { source.sendException(it) }
                 }
             }
         } else

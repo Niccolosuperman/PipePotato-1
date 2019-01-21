@@ -43,8 +43,6 @@ class AuthPlayer(val uuid: UUID) {
     fun register(password: String, verify: String) {
         if (isRegistered)
             throw AlreadyRegisteredException()
-        if (isLogged)
-            throw AlreadyLoggedException()
         if (!verifyPassword(password, verify))
             throw PasswordsDontMatchException()
 
