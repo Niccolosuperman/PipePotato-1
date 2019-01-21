@@ -11,7 +11,7 @@ object AuthPlayerManager {
     }
 
     fun getPlayer(player: Player) =
-        players.stream().findFirst().filter { authWallPlayer -> authWallPlayer.uuid == player.uniqueId }.orElse(
+        players.stream().filter { authWallPlayer -> authWallPlayer.uuid == player.uniqueId }.findFirst().orElse(
             AuthPlayer(player.uniqueId)
         )!!
 
