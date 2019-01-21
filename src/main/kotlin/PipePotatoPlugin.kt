@@ -3,6 +3,7 @@ package io.github.pipespotatos
 import com.google.inject.Inject
 import io.github.pipespotatos.api.config.loadConfig
 import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.module.auth.AuthModule
 import io.github.pipespotatos.module.chat.ChatModule
 import module.roles.RoleModule
 import org.slf4j.Logger
@@ -30,6 +31,7 @@ class PipePotatoPlugin {
     fun onServerStart(event: GameStartedServerEvent) {
         ModuleManager.registerClass(this)
         ModuleManager.registerClass(loadConfig<Config>(File("./config/pipes.conf")))
+        ModuleManager.registerModule(AuthModule())
         ModuleManager.registerModule(ChatModule())
         ModuleManager.registerModule(RoleModule())
         ModuleManager.startAllModules()
