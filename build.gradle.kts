@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.pipespotatos"
-version = "0.2.0"
+version = "0.2.1"
 description = "Core plugin which features all the essentials and mechanics of the official server"
 
 repositories {
