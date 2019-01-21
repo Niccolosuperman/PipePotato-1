@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.pipespotatos"
-version = "0.1.0"
+version = "0.2.0"
 description = "Core plugin which features all the essentials and mechanics of the official server"
 
 repositories {
@@ -17,12 +17,15 @@ repositories {
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+    compile("at.favre.lib:bcrypt:0.6.0")
 
     compileOnly("org.spongepowered:spongeapi:7.1.0")
     testCompile("org.spongepowered:spongeapi:7.1.0")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testImplementation("io.mockk:mockk:1.9")
 }
 
 tasks.withType<KotlinCompile> {
@@ -36,7 +39,9 @@ tasks.withType<Test> {
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "${project.name}-fat"
 
+    exclude("META-INF/*")
     from(configurations.runtime.map { if (it.isDirectory) it else zipTree(it) })
+
     with(tasks["jar"] as CopySpec)
 }
 

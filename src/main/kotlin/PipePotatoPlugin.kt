@@ -1,16 +1,22 @@
 package io.github.pipespotatos
 
 import com.google.inject.Inject
+import io.github.pipespotatos.api.config.loadConfig
 import io.github.pipespotatos.api.module.ModuleManager
+import io.github.pipespotatos.module.auth.AuthModule
+import io.github.pipespotatos.module.chat.ChatModule
+import io.github.pipespotatos.module.tpa.TpaModule
+import module.roles.RoleModule
 import org.slf4j.Logger
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.game.state.GameStartedServerEvent
 import org.spongepowered.api.event.game.state.GameStoppedServerEvent
 import org.spongepowered.api.plugin.Plugin
+import java.io.File
 
 
 @Plugin(
-    version = "0.1.0",
+    version = "0.2.0",
     id = "pipepotato",
     name = "PipePotato",
     authors = ["Pipes & Potatoes"],
@@ -25,7 +31,11 @@ class PipePotatoPlugin {
     @Listener
     fun onServerStart(event: GameStartedServerEvent) {
         ModuleManager.registerClass(this)
-        // @todo Register new modules
+        ModuleManager.registerClass(loadConfig<Config>(File("./config/pipes.conf")))
+        ModuleManager.registerModule(AuthModule())
+        ModuleManager.registerModule(ChatModule())
+        ModuleManager.registerModule(RoleModule())
+        ModuleManager.registerModule(TpaModule())
         ModuleManager.startAllModules()
 
         logger.info("Core plugin enabled.")

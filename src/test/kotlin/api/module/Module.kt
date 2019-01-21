@@ -1,3 +1,5 @@
+package api.module
+
 import io.github.pipespotatos.api.module.Module
 import io.github.pipespotatos.api.module.ModuleManager
 import org.junit.jupiter.api.Assertions
