@@ -104,8 +104,9 @@ class PlayerActionListener {
 
     @Listener
     fun onDamagePlayer(event: DamageEntityEvent) {
-        event.cause.first(Player::class.java).ifPresent {
-            if (!AuthPlayerManager.getPlayer(it).isLogged)
+        if (event.targetEntity is Player) {
+            val player = event.targetEntity as Player
+            if (!AuthPlayerManager.getPlayer(player).isLogged)
                 event.isCancelled = true
         }
     }
@@ -133,6 +134,5 @@ class PlayerActionListener {
                 event.isCancelled = true
         }
     }
-
 
 }
