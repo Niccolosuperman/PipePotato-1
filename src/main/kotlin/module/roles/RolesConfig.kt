@@ -22,7 +22,7 @@ data class Role(
 )
 
 @ConfigSerializable
-data class Config(
+data class RolesConfig(
     @Setting val default: String = "Player",
     @Setting val roles: List<Role> = listOf(Role())
 )

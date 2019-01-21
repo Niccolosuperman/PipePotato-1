@@ -1,7 +1,7 @@
 package module.roles
 
+import io.github.pipespotatos.Config
 import io.github.pipespotatos.PipePotatoPlugin
-import io.github.pipespotatos.api.config.loadConfig
 import io.github.pipespotatos.api.module.Module
 import io.github.pipespotatos.api.module.ModuleManager
 import io.github.pipespotatos.module.roles.RoleManager
@@ -11,11 +11,11 @@ import org.spongepowered.api.Sponge
 import org.spongepowered.api.command.args.GenericArguments
 import org.spongepowered.api.command.spec.CommandSpec
 import org.spongepowered.api.text.Text
-import java.io.File
 
 class RoleModule : Module("role", "Role") {
 
     private val plugin = ModuleManager.getClass<PipePotatoPlugin>()
+    private val config = ModuleManager.getClass<Config>()
 
     override fun onEnable() {
         config()
@@ -23,10 +23,8 @@ class RoleModule : Module("role", "Role") {
     }
 
     private fun config() {
-        val config = loadConfig<Config>(File("./config/roles.conf"))
-
-        RoleManager.setConfig(config)
-        this.logger.info("Loaded ${config.roles.size} roles!")
+        RoleManager.setConfig(config.roles)
+        this.logger.info("Loaded ${config.roles.roles.size} roles!")
     }
 
     private fun commands() {

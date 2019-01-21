@@ -18,7 +18,7 @@ inline fun <reified T> loadConfig(config: File): T {
 
     try {
         return configManager.load().getValue(TypeToken.of(T::class.java)).ifNull {
-            logger.info("Config $config is null, generating...")
+            logger.info("RolesConfig $config is null, generating...")
 
             val node = configManager.createEmptyNode()
             node.setValue(TypeToken.of(T::class.java), T::class.java.newInstance())
