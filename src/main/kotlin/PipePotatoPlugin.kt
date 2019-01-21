@@ -3,6 +3,7 @@ package io.github.pipespotatos
 import com.google.inject.Inject
 import io.github.pipespotatos.api.module.ModuleManager
 import io.github.pipespotatos.module.chat.ChatModule
+import io.github.pipespotatos.module.tpa.TpaModule
 import module.roles.RoleModule
 import org.slf4j.Logger
 import org.spongepowered.api.event.Listener
@@ -29,6 +30,7 @@ class PipePotatoPlugin {
         ModuleManager.registerClass(this)
         ModuleManager.registerModule(ChatModule())
         ModuleManager.registerModule(RoleModule())
+        ModuleManager.registerModule(TpaModule())
         ModuleManager.startAllModules()
 
         logger.info("Core plugin enabled.")
