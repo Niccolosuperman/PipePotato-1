@@ -19,11 +19,13 @@ dependencies {
     compile(kotlin("reflect"))
     compile("at.favre.lib:bcrypt:0.6.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
-
     compileOnly("org.spongepowered:spongeapi:7.1.0")
     testCompile("org.spongepowered:spongeapi:7.1.0")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testImplementation("io.mockk:mockk:1.9")
 }
 
 tasks.withType<KotlinCompile> {

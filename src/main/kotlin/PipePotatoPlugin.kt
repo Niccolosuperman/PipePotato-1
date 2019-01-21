@@ -1,6 +1,7 @@
 package io.github.pipespotatos
 
 import com.google.inject.Inject
+import io.github.pipespotatos.api.config.loadConfig
 import io.github.pipespotatos.api.module.ModuleManager
 import io.github.pipespotatos.module.auth.AuthModule
 import io.github.pipespotatos.module.chat.ChatModule
@@ -10,6 +11,7 @@ import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.game.state.GameStartedServerEvent
 import org.spongepowered.api.event.game.state.GameStoppedServerEvent
 import org.spongepowered.api.plugin.Plugin
+import java.io.File
 
 
 @Plugin(
@@ -28,6 +30,7 @@ class PipePotatoPlugin {
     @Listener
     fun onServerStart(event: GameStartedServerEvent) {
         ModuleManager.registerClass(this)
+        ModuleManager.registerClass(loadConfig<Config>(File("./config/pipes.conf")))
         ModuleManager.registerModule(AuthModule())
         ModuleManager.registerModule(ChatModule())
         ModuleManager.registerModule(RoleModule())

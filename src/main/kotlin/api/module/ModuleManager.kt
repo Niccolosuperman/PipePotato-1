@@ -44,7 +44,7 @@ object ModuleManager {
         classRegistry.add(clazz)
     }
 
-    internal inline fun <reified T> getClass() = classRegistry.first { it is T }
+    internal inline fun <reified T> getClass(): T = classRegistry.first { it is T } as T
 
     fun getModuleById(id: String) = modules.firstOrNull { module -> module.id == id }
 

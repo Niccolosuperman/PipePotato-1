@@ -4,7 +4,7 @@ import io.github.pipespotatos.api.database.Database
 import io.github.pipespotatos.api.database.execute
 import io.github.pipespotatos.api.database.executeUpdate
 import io.github.pipespotatos.extensions.ifNull
-import module.roles.Config
+import module.roles.RolesConfig
 import module.roles.Role
 import java.util.*
 
@@ -12,13 +12,13 @@ import java.util.*
 object RoleManager : Database("role") {
 
     private const val table = "roles"
-    internal lateinit var config: Config
+    internal lateinit var config: RolesConfig
 
     init {
         createTableIfNotExists()
     }
 
-    fun setConfig(c: Config) {
+    fun setConfig(c: RolesConfig) {
         this.config = c
     }
 
