@@ -17,6 +17,7 @@ repositories {
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
+    compile("at.favre.lib:bcrypt:0.6.0")
 
     compileOnly("org.spongepowered:spongeapi:7.1.0")
     testCompile("org.spongepowered:spongeapi:7.1.0")
@@ -38,7 +39,9 @@ tasks.withType<Test> {
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = "${project.name}-fat"
 
+    exclude("META-INF/*")
     from(configurations.runtime.map { if (it.isDirectory) it else zipTree(it) })
+
     with(tasks["jar"] as CopySpec)
 }
 
